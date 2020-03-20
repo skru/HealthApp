@@ -1,6 +1,7 @@
 # from django.conf.urls import include
 from django.urls import path
 from django.contrib import admin
+from django.conf import settings
 
 # urlpatterns = [
 #     path('chat/', include('chat.urls')),
@@ -30,11 +31,16 @@ router.register(r'users', UserViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
+
+alt_url = ""
+if (settings.DEBUG == True):
+    alt_url = "api/"
+
 urlpatterns = [
-	path('chat/', include('chat.urls')),
-    path('admin/', admin.site.urls),
-    path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^dj-rest-auth/', include('dj_rest_auth.urls')),
-    url(r'^dj-rest-auth/registration/', include('dj_rest_auth.registration.urls'))
+	path(alt_url + 'chat/', include('chat.urls')),
+    path(alt_url + 'admin/', admin.site.urls),
+    path(alt_url + '', include(router.urls)),
+    path(alt_url + 'api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path(alt_url + 'dj-rest-auth/', include('dj_rest_auth.urls')),
+    path(alt_url + 'dj-rest-auth/registration/', include('dj_rest_auth.registration.urls'))
 ]
