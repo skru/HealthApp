@@ -37,10 +37,12 @@ if (settings.DEBUG == True):
     alt_url = "api/"
 
 urlpatterns = [
-	path(alt_url + 'chat/', include('chat.urls')),
+	#path(alt_url + 'chat/', include('chat.urls')),
     path(alt_url + 'admin/', admin.site.urls),
     path(alt_url + '', include(router.urls)),
     path(alt_url + 'api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path(alt_url + 'dj-rest-auth/', include('dj_rest_auth.urls')),
-    path(alt_url + 'dj-rest-auth/registration/', include('dj_rest_auth.registration.urls'))
+    path(alt_url + 'auth/', include('djoser.urls')),
+    path(alt_url + 'auth/', include('djoser.urls.authtoken')),
+    #path(alt_url + 'dj-rest-auth/', include('dj_rest_auth.urls')),
+    #path(alt_url + 'dj-rest-auth/registration/', include('dj_rest_auth.registration.urls'))
 ]
