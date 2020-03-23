@@ -22,7 +22,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 #DJANGO-SITES
 SITE_ID = 1
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Application definition
 
@@ -39,12 +38,6 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'djoser',
-    #'dj_rest_auth',
-    
-    #'django.contrib.sites',
-    #'allauth',
-    #'allauth.account',
-    #'dj_rest_auth.registration',
 ]
 
 MIDDLEWARE = [
@@ -78,15 +71,6 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'main.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
-
-
-
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -119,14 +103,9 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
-
-STATIC_URL = '/static/'
-
 #CHANNELS 
 ASGI_APPLICATION = "main.routing.application"
+WSGI_APPLICATION = 'main.wsgi.application'
 
 #REST
 REST_FRAMEWORK = {
