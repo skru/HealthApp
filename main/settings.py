@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'djoser',
+    'main',
 ]
 
 MIDDLEWARE = [
@@ -119,6 +120,9 @@ REST_FRAMEWORK = {
     ]
     
 }
+
+#DJANGO AUTH
+#AUTH_USER_MODEL="main.CustomUser"
 
 
 ##################

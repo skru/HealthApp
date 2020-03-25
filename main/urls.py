@@ -2,17 +2,12 @@
 from django.urls import path
 from django.contrib import admin
 from django.conf import settings
-
-# urlpatterns = [
-#     path('chat/', include('chat.urls')),
-#     path('admin/', admin.site.urls),
-#     path('api-auth/', include('rest_framework.urls')),
-# ]
-
-
 from django.conf.urls import url, include
 from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
+
+# from django.contrib.auth import get_user_model
+# User = get_user_model() 
 
 # Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):
