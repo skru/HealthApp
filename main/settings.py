@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'djoser',
     'main',
+    'nhs',
 ]
 
 MIDDLEWARE = [
