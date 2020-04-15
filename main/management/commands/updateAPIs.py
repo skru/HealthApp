@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.core.management.base import BaseCommand, CommandError
 #import requests
 import http.client, urllib.request, urllib.parse, urllib.error, base64, json, time
