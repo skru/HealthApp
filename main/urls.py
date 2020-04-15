@@ -6,15 +6,16 @@ from django.conf.urls import url, include
 #from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
 from nhs.models import *
+from chat.models import *
 
 # from django.contrib.auth import get_user_model
 # User = get_user_model() 
 
 # Serializers define the API representation.
-# class UserSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ['url', 'username', 'email', 'is_staff']
+class PractitionerSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'email']
 
 class NHSConditionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,9 +23,9 @@ class NHSConditionSerializer(serializers.ModelSerializer):
         fields = ["title", "description", "url"]
 
 # ViewSets define the view behavior.
-# class UserViewSet(viewsets.ModelViewSet):
-#     queryset = User.objects.all()
-#     serializer_class = UserSerializer
+class PractitionerViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.filter(profile__is_practitioner=True)
+    serializer_class = PractitionerSerializer
 
 class NHSConditionViewSet(viewsets.ModelViewSet):
     queryset = NHSCondition.objects.all()
@@ -33,7 +34,7 @@ class NHSConditionViewSet(viewsets.ModelViewSet):
 
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
-#router.register(r'users', UserViewSet)
+router.register(r'practitioners', PractitionerViewSet)
 router.register(r'conditions', NHSConditionViewSet)
 
 # Wire up our API using automatic URL routing.
