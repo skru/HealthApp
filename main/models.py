@@ -6,15 +6,14 @@ from django.contrib.auth.models import User
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     is_practitioner = models.BooleanField(default=False)
     practitioner = models.ForeignKey(
         User, related_name='patient_practitioner', 
         on_delete=models.CASCADE, blank=True, null=True
 	) 
-@receiver(post_save, sender=User)
+@receiver(post_save, sender=User, dispatch_uid="create_or_update_user_profile_signal")
 def create_or_update_user_profile(sender, instance, created, **kwargs):
-    print("CREATING")
     if created:
         Profile.objects.create(user=instance)
     instance.profile.save()
