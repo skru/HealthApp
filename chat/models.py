@@ -5,23 +5,35 @@ import uuid
 User = get_user_model()
 
 
-class Message(models.Model):
-    author = models.ForeignKey(
-        User, related_name='messages', on_delete=models.CASCADE
-    )
-    content = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.author.user.username
 
+    
+
+def hex_uuid():
+    return uuid.uuid4().hex
 
 class Chat(models.Model):
-    chat_uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+    chat_uuid = models.CharField(default=hex_uuid, editable=False, max_length=32)
     participants = models.ManyToManyField(
     	User, related_name='participants', blank=True,
     )
-    messages = models.ManyToManyField(Message, blank=True)
+    #messages = models.ManyToManyField(Message, related_name="chat_messages", blank=True)
+
+    #get_messages
+    
 
     def __str__(self):
         return "{}".format(self.pk)
+
+
+class Message(models.Model):
+    author = models.ForeignKey(
+        User, related_name='messages', 
+        on_delete=models.CASCADE,
+    )
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    chat = models.ForeignKey(Chat, related_name="chat_message", null=True, blank=True, on_delete=models.CASCADE,)
+
+    def __str__(self):
+        return self.author.username

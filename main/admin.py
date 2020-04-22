@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.admin import GenericTabularInline
 
 from .models import *
 from chat.models import *
@@ -36,5 +37,27 @@ class PatientAdmin(admin.ModelAdmin):
 
 admin.site.register(Patient, PatientAdmin)
 
-admin.site.register(Chat)
-admin.site.register(Message)
+
+class MessageInline(admin.TabularInline):
+    model = Message
+    readonly_fields = ['author', 'content']
+    fieldsets = (
+        (None, {
+            'fields': ('author', 'content',)
+        }),
+       
+    )
+
+class ChatAdmin(admin.ModelAdmin):
+    inlines = [
+        MessageInline,
+    ]
+    readonly_fields = ['chat_uuid', 'participants']
+    fieldsets = (
+        (None, {
+            'fields': ('chat_uuid', 'participants')
+        }),
+       
+    )
+
+admin.site.register(Chat, ChatAdmin)

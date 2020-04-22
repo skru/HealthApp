@@ -45,6 +45,10 @@ class ParticipantSerializer(serializers.ModelSerializer):
 
 class ChatSerializer(serializers.ModelSerializer):
     participants = ParticipantSerializer(many=True)
+    # chat_uuid = serializers.SerializerMethodField()
+
+    # def get_chat_uuid(self, obj):
+    #     return obj.getChatUUID()
 
     class Meta:
         model = Chat
