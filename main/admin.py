@@ -3,6 +3,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 
 from .models import *
+from chat.models import *
 
 # Define an inline admin descriptor for Profile model
 # which acts a bit like a singleton
@@ -34,3 +35,6 @@ class PatientAdmin(admin.ModelAdmin):
 		return super(PatientAdmin,self).get_queryset(request).filter(is_practitioner=False)
 
 admin.site.register(Patient, PatientAdmin)
+
+admin.site.register(Chat)
+admin.site.register(Message)

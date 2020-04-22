@@ -79,7 +79,6 @@ class CustomUserCreateSerializer(serializers.ModelSerializer):
                 user.is_active = False
                 user.save(update_fields=["is_active"])
             practitioner_username = validated_data.get("practitioner")
-            print(practitioner_username)
             user.profile.practitioner = User.objects.get(username=practitioner_username)
             user.profile.save()
         return user

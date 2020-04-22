@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
+from chat.models import Chat
 
 
 class Profile(models.Model):
@@ -11,7 +12,11 @@ class Profile(models.Model):
     practitioner = models.ForeignKey(
         User, related_name='patient_practitioner', 
         on_delete=models.CASCADE, blank=True, null=True
-	) 
+	)
+
+    def get_full_name(self):
+        return self.first_name + " " + self.last_name
+
 @receiver(post_save, sender=User, dispatch_uid="create_or_update_user_profile_signal")
 def create_or_update_user_profile(sender, instance, created, **kwargs):
     if created:

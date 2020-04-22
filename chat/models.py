@@ -1,8 +1,6 @@
-from uuid import uuid4
-
 from django.db import models
 from django.contrib.auth import get_user_model
-
+import uuid
 
 User = get_user_model()
 
@@ -15,12 +13,13 @@ class Message(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.contact.user.username
+        return self.author.user.username
 
 
 class Chat(models.Model):
+    chat_uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     participants = models.ManyToManyField(
-    	User, related_name='chats', blank=True
+    	User, related_name='participants', blank=True,
     )
     messages = models.ManyToManyField(Message, blank=True)
 
