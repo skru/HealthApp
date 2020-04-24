@@ -3,6 +3,7 @@ from django.core.management.base import BaseCommand, CommandError
 #import requests
 import http.client, urllib.request, urllib.parse, urllib.error, base64, json, time
 from nhs.models import *
+from django.conf import settings
 
 class Command(BaseCommand):
     help = 'polls NHS Conditions API for data'
@@ -10,7 +11,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         headers = {
-            'subscription-key': '5c0342d6e3d94f95b3182077b37f2ec3',
+            'subscription-key': settings.NHS_API_KEY,
         }
         
         page_count = 1 

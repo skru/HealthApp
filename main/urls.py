@@ -11,48 +11,14 @@ from rest_framework.permissions import IsAuthenticated
 
 from nhs.models import *
 from chat.models import *
+from main.serializers import *
 
 
 from django.db import IntegrityError, transaction
 import traceback
 
 
-# from django.contrib.auth import get_user_model
-User = get_user_model() 
 
-# Serializers define the API representation.
-class PractitionerSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'get_full_name']
-
-class NHSConditionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = NHSCondition
-        fields = ["title", "description", "url"]
-
-
-class ParticipantSerializer(serializers.ModelSerializer):
-    is_practitioner = serializers.SerializerMethodField()
-
-    def get_is_practitioner(self, obj):
-        is_practitioner = obj.profile.is_practitioner
-        return is_practitioner
-
-    class Meta:
-        model = User
-        fields = 'get_full_name', 'username', 'is_practitioner'
-
-class ChatSerializer(serializers.ModelSerializer):
-    participants = ParticipantSerializer(many=True)
-    # chat_uuid = serializers.SerializerMethodField()
-
-    # def get_chat_uuid(self, obj):
-    #     return obj.getChatUUID()
-
-    class Meta:
-        model = Chat
-        fields = '__all__'
 
 # ViewSets define the view behavior.
 class PractitionerViewSet(viewsets.ModelViewSet):
@@ -69,6 +35,7 @@ class ChatViewSet(generics.ListCreateAPIView):
     queryset = Chat.objects.all()
     serializer_class = ChatSerializer
     http_method_names = ['get']
+    permission_classes = [IsAuthenticated]
 
     def list(self, request, username):
         queryset = self.get_queryset()

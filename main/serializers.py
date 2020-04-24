@@ -6,20 +6,27 @@ from django.db import IntegrityError, transaction
 from rest_framework import exceptions, serializers
 from rest_framework.exceptions import ValidationError
 from django.contrib.auth import authenticate, get_user_model
+from nhs.models import NHSCondition, NHSConditionKeyword
+from chat.models import Chat, Message
 
 User = get_user_model()
 
 class CustomTokenSerializer(serializers.ModelSerializer):
     auth_token = serializers.CharField(source="key")
     is_practitioner = serializers.SerializerMethodField()
+    full_name = serializers.SerializerMethodField()
 
     def get_is_practitioner(self, obj):
         is_practitioner = obj.user.profile.is_practitioner
         return is_practitioner
 
+    def get_full_name(self, obj):
+        name = obj.user.get_full_name()
+        return name
+
     class Meta:
         model = djoser_settings.TOKEN_MODEL
-        fields = ("auth_token", "is_practitioner")
+        fields = ("auth_token", "is_practitioner", "full_name")
 
 
 class CustomUserCreateSerializer(serializers.ModelSerializer):
@@ -82,3 +89,35 @@ class CustomUserCreateSerializer(serializers.ModelSerializer):
             user.profile.practitioner = User.objects.get(username=practitioner_username)
             user.profile.save()
         return user
+
+
+class PractitionerSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'get_full_name']
+
+
+class NHSConditionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NHSCondition
+        fields = ["title", "description", "url"]
+
+
+class ParticipantSerializer(serializers.ModelSerializer):
+    is_practitioner = serializers.SerializerMethodField()
+
+    def get_is_practitioner(self, obj):
+        is_practitioner = obj.profile.is_practitioner
+        return is_practitioner
+
+    class Meta:
+        model = User
+        fields = 'get_full_name', 'username', 'is_practitioner'
+
+
+class ChatSerializer(serializers.ModelSerializer):
+    participants = ParticipantSerializer(many=True)
+
+    class Meta:
+        model = Chat
+        fields = '__all__'

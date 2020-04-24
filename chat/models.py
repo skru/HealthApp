@@ -17,13 +17,9 @@ class Chat(models.Model):
     participants = models.ManyToManyField(
     	User, related_name='participants', blank=True,
     )
-    #messages = models.ManyToManyField(Message, related_name="chat_messages", blank=True)
-
-    #get_messages
-    
 
     def __str__(self):
-        return "{}".format(self.pk)
+        return "{}".format(self.chat_uuid)
 
 
 class Message(models.Model):
