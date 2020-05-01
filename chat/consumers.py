@@ -60,11 +60,22 @@ class ChatConsumer(WebsocketConsumer):
         }
         return self.send_chat_message(content)
 
+    def close_peer(self, data):
+        # send peer offer to websocket
+        #print("answer peer", data)
+        content = {
+            'type': 'close_peer',
+            #'message': data['message'],
+            'author': data['author'],
+        }
+        return self.send_chat_message(content)
+
     commands = {
         'get_messages': get_messages,
         'add_message': add_message,
         'init_peer': init_peer,
         'answer_peer': answer_peer,
+        'close_peer': close_peer,
     }
 
     def connect(self):
