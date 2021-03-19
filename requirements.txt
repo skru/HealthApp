@@ -21,7 +21,7 @@ Django==3.0.3
 django-allauth==0.41.0
 django-cors-headers==3.2.1
 django-filter==2.2.0
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 h2==3.2.0
 hiredis==1.0.1
 hpack==3.0.0
